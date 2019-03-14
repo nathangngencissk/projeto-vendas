@@ -1,7 +1,7 @@
 # PROJETO VENDAS
 
 ## Descrição
-Nesse projeto você deve criar uma aplicação ORIENTADAA OBJETOS respeitando o padrão de desenvolvimento em camadas, para realizar operações de um sistema de vendas. O sistema deverá mostrar o seguintemenu:
+Nesse projeto você deve criar uma aplicação ORIENTADA A OBJETOS respeitando o padrão de desenvolvimento em camadas, para realizar operações de um sistema de vendas. O sistema deverá mostrar o seguintemenu:
 
 1 –Cadastrar de Cliente
 
