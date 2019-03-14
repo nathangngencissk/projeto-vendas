@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Model List<VendasMVC.Models.Cliente>
+
+<table>
+    <thead>
+        <tr>Nome</tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in Model)
+        {
+            <tr>@cliente.Nome</tr>
+            <button>Detalhes</button>
+            <button>Compras</button>
+        }
+    </tbody>
+</table>
