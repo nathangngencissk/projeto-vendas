@@ -9,6 +9,6 @@ namespace VendasMVC.Models
     {
         public int IdProduto { get; set; }
         public string Nome { get; set; }
-        public double Valor { get; set; }
+        public decimal ValorUnitario { get; set; }
     }
 }
