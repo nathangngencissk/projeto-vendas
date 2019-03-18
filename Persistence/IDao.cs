@@ -10,6 +10,8 @@ namespace VendasMVC.Persistence
     {
         void Adicionar(T item);
         void Alterar(T item);
-        void Remover(T item);
+        T Pegar(int id);
+        ICollection<T> PegarLista();
+        void Remover(int id);
     }
 }

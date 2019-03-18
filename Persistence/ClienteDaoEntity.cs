@@ -8,18 +8,29 @@ namespace VendasMVC.Persistence
 {
     public class ClienteDaoEntity : IDao<Cliente>, IDisposable
     {
-        public void Adicionar(Cliente item)
+        public void Adicionar(Cliente cliente)
         {
             using (var contexto = new LojaContext())
             {
-                contexto.Clientes.Add(item);
+                contexto.Clientes.Add(cliente);
                 contexto.SaveChanges();
             }
         }
 
-        public void Alterar(Cliente item)
+        public void Alterar(Cliente cliente)
         {
-            throw new NotImplementedException();
+            Cliente clienteAAlterar;
+            using (var contexto = new LojaContext())
+            {
+                List<Cliente> lista = contexto.Clientes.ToList<Cliente>();
+                clienteAAlterar = (from c in lista where c.IdCliente == cliente.IdCliente select c).First();
+
+                clienteAAlterar.Nome = cliente.Nome;
+                clienteAAlterar.Cpf = cliente.Cpf;
+
+
+                contexto.SaveChanges();
+            }
         }
 
 
@@ -31,6 +42,27 @@ namespace VendasMVC.Persistence
         public void Dispose()
         {
             Console.WriteLine("Apagado");
+        }
+
+        public Cliente Pegar(int id)
+        {
+            Cliente cliente;
+            using (var contexto = new LojaContext())
+            {
+                cliente = (from c in contexto.Clientes.ToList<Cliente>() where c.IdCliente == id select c).First();
+            }
+
+            return cliente;
+        }
+
+        public ICollection<Cliente> PegarLista()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remover(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

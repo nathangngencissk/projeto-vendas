@@ -11,8 +11,8 @@ namespace VendasMVC.Controllers
 {
     public class ClienteController : Controller
     {
-        [Route("/clientes", Name = "ListaClientes")]
-        public ActionResult Index()
+        [Route("/clientes", Name = "ListarClientes")]
+        public ActionResult ListarClientes()
         {
             List<Cliente> lista;
             using (var contexto = new LojaContext())
@@ -23,81 +23,38 @@ namespace VendasMVC.Controllers
             return View(lista);
         }
 
-        [Route("/clientes/adicionaCliente", Name = "AdicionaCliente")]
-        public ActionResult AdicionaCliente(Cliente cliente)
+        [Route("/clientes/adiciona", Name = "AdicionarCliente")]
+        public ActionResult AdicionarCliente(Cliente cliente)
         {
-            ViewBag.Cliente = new Cliente();
-            ViewBag.Action = "../adiciona";
-            return View("Form");
-        }
-
-        [Route("/clientes/adiciona", Name = "Adiciona")]
-        public ActionResult Adiciona(Cliente cliente)
-        {
-            using (var contexto = new LojaContext())
+            using (var dao = new ClienteDaoEntity())
             {
-                contexto.Clientes.Add(cliente);
+                dao.Adicionar(cliente);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ListarClientes");
         }
 
-        [Route("/clientes/{id}", Name = "VisualizaCliente")]
-        public ActionResult VisualizaCliente(int id)
+        [Route("/clientes/{id}", Name = "VisualizarCliente")]
+        public ActionResult VisualizarCliente(int id)
         {
-            Cliente cliente;
-            using (var contexto = new LojaContext())
+            Cliente cliente = new Cliente();
+            using (var dao = new ClienteDaoEntity())
             {
-                cliente = (from c in contexto.Clientes.ToList<Cliente>() where c.IdCliente == id select c).First();
+                cliente = dao.Pegar(id);
             }
             return View(cliente);
         }
 
-        [Route("/clientes/{id}/alterarCliente", Name = "AlterarCliente")]
-        public ActionResult AlterarCliente(int id)
+        [Route("/clientes/alterarCliente", Name = "AlterarCliente")]
+        public ActionResult AlterarCliente(Cliente cliente)
         {
-            Cliente cliente;
-            using (var contexto = new LojaContext())
+            using (var dao = new ClienteDaoEntity())
             {
-                cliente = (from c in contexto.Clientes.ToList<Cliente>() where c.IdCliente == id select c).First();
-            }
-            ViewBag.Cliente = cliente;
-            ViewBag.Action = "../alterar";
-            return View("Form");
-        }
-
-        [Route("/clientes/alterar", Name = "Alterar")]
-        public ActionResult Alterar(Cliente cliente)
-        {
-            Cliente clienteAAlterar;
-            using (var contexto = new LojaContext())
-            {
-                clienteAAlterar = (from c in contexto.Clientes.ToList<Cliente>() where c.IdCliente == cliente.IdCliente select c).First();
-
-                clienteAAlterar.Nome = cliente.Nome;
-                clienteAAlterar.Cpf = cliente.Cpf;
-
-
-                contexto.Clientes.Attach(clienteAAlterar);
-
-                // EF now tracks the object, any new changes will be applied
-
-                foreach (PropertyInfo property in typeof(Cliente).GetProperties())
-                {
-                    if (property.)
-                    {
-                        // Set the value to view in debugger - should be dynamic cast eventually
-                        var value = Convert.ToInt16(dbFields[property.Name]);
-                        property.SetValue(objToUpdate, value);
-                    }
-                }
-
-                // Will only perform an UPDATE query, no SELECT at all
-                db.SaveChanges();
-                typeof(Cliente).GetProperties());
+                dao.Alterar(cliente);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ListarClientes");
         }
+
     }
 }
