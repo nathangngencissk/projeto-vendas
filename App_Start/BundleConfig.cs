@@ -26,12 +26,23 @@ namespace VendasMVC
                       "~/Scripts/jquery.easing.min.js",
                       "~/Scripts/sb-admin-2.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/funcionalidades").Include(
+                      "~/Scripts/Chart.min.js",
+                      "~/Scripts/funcionalidades.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                      "~/Scripts/DataTables/jquery.dataTables.min.js",
+                      "~/Scripts/DataTables/dataTables.bootstrap4.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/template").Include(
                       "~/Content/sb-admin-2.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datatables").Include(
+                      "~/Content/dataTables.bootstrap4.min.css"));
         }
     }
 }

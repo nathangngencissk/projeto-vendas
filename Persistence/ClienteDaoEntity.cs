@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using VendasMVC.Models;
@@ -33,15 +34,9 @@ namespace VendasMVC.Persistence
             }
         }
 
-
-        public void Remover(Cliente item)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
-            Console.WriteLine("Apagado");
+            
         }
 
         public Cliente Pegar(int id)
@@ -57,12 +52,24 @@ namespace VendasMVC.Persistence
 
         public ICollection<Cliente> PegarLista()
         {
-            throw new NotImplementedException();
+            List<Cliente> lista;
+            using (var contexto = new LojaContext())
+            {
+                lista = contexto.Clientes.ToList();
+            }
+            return lista;
         }
 
         public void Remover(int id)
         {
-            throw new NotImplementedException();
+            Cliente cliente;
+            using (var contexto = new LojaContext())
+            {
+                cliente = (from c in contexto.Clientes.ToList<Cliente>() where c.IdCliente == id select c).First();
+                contexto.Clientes.Attach(cliente);
+                contexto.Entry(cliente).State = EntityState.Deleted;
+                contexto.SaveChanges();
+            }
         }
     }
 }

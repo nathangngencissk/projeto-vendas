@@ -96,8 +96,8 @@
                      aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href='@Url.Action("Create", "Cliente")'>Novo clientes</a>
-                        <a class="collapse-item" href='@Url.Action("Listar", "Cliente")'>Listar clientes</a>
+                        <a class="collapse-item" href='@Url.RouteUrl("FormCliente", new { id = 0, acao = "./adicionar" })'>Novo clientes</a>
+                        <a class="collapse-item" href='@Url.RouteUrl("ListarClientes")'>Listar clientes</a>
                     </div>
                 </div>
             </li>
@@ -251,7 +251,7 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>
-                            Copyright &copy; Your Website
+                            Copyright &copy; Sistema de Vendas
                             @DateTime.Now.Year
                         </span>
                     </div>

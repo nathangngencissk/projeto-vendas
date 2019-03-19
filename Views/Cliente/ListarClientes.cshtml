@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/funcionalidades")
+}
+
+@Styles.Render("~/Content/datatables")
+
+@model List<VendasMVC.Models.Cliente>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>CPF</th>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>CPF</th>
+                        <th>Nome</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td>@cliente.Cpf</td>
+                            <td>@cliente.Nome</td>
+                            <td>
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Cliente", new { id = cliente.IdCliente, acao = "./alterar" })'">Alterar</button> |
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarCliente", "Cliente", new { id = cliente.IdCliente })'">Ver Compras</button> |
+                                <button type="button" class="btn btn-danger delete" name="@cliente.IdCliente">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

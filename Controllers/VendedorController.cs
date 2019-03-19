@@ -3,15 +3,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VendasMVC.Models;
+using VendasMVC.Persistence;
+using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
     public class VendedorController : Controller
     {
-        // GET: Vendedor
-        public ActionResult Index()
+        [Route("vendedores", Name = RouteNames.ListarVendedores)]
+        public ActionResult ListarVendedores()
         {
-            return View();
+            List<Vendedor> lista;
+            using (var dao = new VendedorDaoEntity())
+            {
+                lista = dao.PegarLista() as List<Vendedor>;
+            }
+
+            return View(lista);
+        }
+
+        [Route("vendedores/adicionar", Name = RouteNames.AdicionarVendedor)]
+        public ActionResult AdicionarProduto(Vendedor vendedor)
+        {
+            using (var dao = new VendedorDaoEntity())
+            {
+                dao.Adicionar(vendedor);
+            }
+
+            return RedirectToAction("ListarVendedor");
+        }
+
+        [Route("vendedores/{id}", Name = RouteNames.VisualizarVendedor)]
+        public ActionResult VisualizarProduto(int id)
+        {
+            Vendedor vendedor = new Vendedor();
+            using (var dao = new VendedorDaoEntity())
+            {
+                vendedor = dao.Pegar(id);
+            }
+            return View(vendedor);
+        }
+
+        [Route("vendedores/alterar", Name = RouteNames.AlterarVendedor)]
+        public ActionResult AlterarProduto(Vendedor vendedor)
+        {
+            using (var dao = new VendedorDaoEntity())
+            {
+                dao.Alterar(vendedor);
+            }
+
+            return RedirectToAction("ListarVendedores");
+        }
+
+        [Route("vendedores/{acao}/{id}", Name = RouteNames.FormVendedor)]
+        public ActionResult Form(int id, string acao)
+        {
+
+            VendedorFormViewModel vm = new VendedorFormViewModel
+            {
+                Acao = $"../{acao}"
+            };
+
+            if (id == 0)
+            {
+                vm.Vendedor = new Vendedor();
+            }
+            else
+            {
+                using (var dao = new VendedorDaoEntity())
+                {
+                    vm.Vendedor = dao.Pegar(id);
+                }
+            }
+
+            return View(vm);
+
         }
     }
 }

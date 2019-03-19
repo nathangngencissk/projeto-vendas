@@ -6,24 +6,25 @@ using System.Web;
 using System.Web.Mvc;
 using VendasMVC.Models;
 using VendasMVC.Persistence;
+using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
     public class ClienteController : Controller
     {
-        [Route("/clientes", Name = "ListarClientes")]
+        [Route("clientes", Name = RouteNames.ListarClientes)]
         public ActionResult ListarClientes()
         {
             List<Cliente> lista;
-            using (var contexto = new LojaContext())
+            using (var dao = new ClienteDaoEntity())
             {
-               lista = contexto.Clientes.ToList<Cliente>();
+                lista = dao.PegarLista() as List<Cliente>;
             }
 
             return View(lista);
         }
 
-        [Route("/clientes/adiciona", Name = "AdicionarCliente")]
+        [Route("clientes/adicionar", Name = RouteNames.AdicionarCliente)]
         public ActionResult AdicionarCliente(Cliente cliente)
         {
             using (var dao = new ClienteDaoEntity())
@@ -34,8 +35,8 @@ namespace VendasMVC.Controllers
             return RedirectToAction("ListarClientes");
         }
 
-        [Route("/clientes/{id}", Name = "VisualizarCliente")]
-        public ActionResult VisualizarCliente(int id)
+        [Route("clientes/{id}", Name = RouteNames.VisualizarCliente)]
+        public ActionResult VisualizarCliente(int id = 1)
         {
             Cliente cliente = new Cliente();
             using (var dao = new ClienteDaoEntity())
@@ -45,7 +46,7 @@ namespace VendasMVC.Controllers
             return View(cliente);
         }
 
-        [Route("/clientes/alterarCliente", Name = "AlterarCliente")]
+        [Route("clientes/alterar", Name = RouteNames.AlterarCliente)]
         public ActionResult AlterarCliente(Cliente cliente)
         {
             using (var dao = new ClienteDaoEntity())
@@ -54,6 +55,30 @@ namespace VendasMVC.Controllers
             }
 
             return RedirectToAction("ListarClientes");
+        }
+
+        [Route("clientes/{acao}/{id}", Name = RouteNames.FormCliente)]
+        public ActionResult Form(int id, string acao)
+        {
+
+            ClienteFormViewModel vm = new ClienteFormViewModel
+            {
+                Acao = $"../{acao}"
+            };
+
+            if (id == 0)
+            {
+                vm.Cliente = new Cliente();
+            } else
+            {
+                using (var dao = new ClienteDaoEntity())
+                {
+                    vm.Cliente = dao.Pegar(id);
+                }
+            }
+
+            return View(vm);
+            
         }
 
     }

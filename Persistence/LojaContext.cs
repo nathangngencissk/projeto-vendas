@@ -13,7 +13,7 @@ namespace VendasMVC.Persistence
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Vendedor> Vendedores { get; set; }
            
-        public LojaContext() : base("Name=ConnString")
+        public LojaContext() : base("Name=LojaContext")
         {
         }
     }
