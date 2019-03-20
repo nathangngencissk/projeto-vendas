@@ -3,7 +3,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @section styles {
     @Styles.Render("~/Content/datatables")
 }
@@ -12,7 +11,7 @@
     @Scripts.Render("~/bundles/datatables")
 }
 
-@model List<VendasMVC.Models.Cliente>
+@model List<VendasMVC.Models.Vendedor>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -24,18 +23,12 @@
                     <tr>
                         <th>CPF</th>
                         <th>Nome</th>
-                        <th>Alterar</th>
-                        <th>Compras</th>
-                        <th>Excluir</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>CPF</th>
                         <th>Nome</th>
-                        <th>Alterar</th>
-                        <th>Compras</th>
-                        <th>Excluir</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -45,13 +38,9 @@
                             <td>@cliente.Cpf</td>
                             <td>@cliente.Nome</td>
                             <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Cliente", new { id = cliente.IdCliente, acao = "./alterar" })'">Alterar</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarCliente", "Cliente", new { id = cliente.IdCliente })'">Ver Compras</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger delete" name="@cliente.IdCliente">Excluir</button>
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Vendedor", new { id = vendedor.IdVendedor, acao = "./alterar" })'">Alterar</button> |
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarVendedor", "Vendedor", new { id = vendedor.IdVendedor })'">Ver Vendas</button> |
+                                <button type="button" class="btn btn-danger delete" name="@vendedor.IdVendedor">Delete</button>
                             </td>
                         </tr>
                     }

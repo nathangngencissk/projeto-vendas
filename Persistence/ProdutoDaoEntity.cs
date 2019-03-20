@@ -28,6 +28,7 @@ namespace VendasMVC.Persistence
 
                 produtoAAlterar.Nome = produto.Nome;
                 produtoAAlterar.ValorUnitario = produto.ValorUnitario;
+                produtoAAlterar.QuantidadeEmEstoque = produto.QuantidadeEmEstoque;
                 produtoAAlterar.Categoria = produto.Categoria;
 
                 contexto.SaveChanges();

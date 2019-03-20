@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/validate")
+}
+
+@model VendasMVC.ViewModel.ProdutoFormViewModel
+
+<h2>Form</h2>
+<form action=@Model.Acao method="post" onsubmit="return validateForm()">
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input class="form-control mr-sm-2" type="text" name="produto.Nome" id="nome" value="@Model.Produto.Nome" />
+    </div>
+    <div class="form-group">
+        <label for="valor">Valor unitário</label>
+        <input class="form-control mr-sm-2" type="number" name="produto.Nome" id="valor" value="@Model.Produto.ValorUnitario" />
+    </div>
+    <div class="form-group">
+        <label for="qtd">Estoque</label>
+        <input class="form-control mr-sm-2" type="number" name="produto.QuantidadeEmEstoque" id="qtd" value="@Model.Produto.QuantidadeEmEstoque" />
+    </div>
+    <input type="text" name="produto.IdProduto" id="id" value=@Model.Produto.IdProduto hidden />
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Submit" />
+    </div>
+</form>
+<button type="button" class="btn btn-info m-2" onclick="location.href='@Url.Action("Index", "Home")'">Voltar</button>

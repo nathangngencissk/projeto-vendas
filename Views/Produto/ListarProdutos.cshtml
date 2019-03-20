@@ -12,7 +12,7 @@
     @Scripts.Render("~/bundles/datatables")
 }
 
-@model List<VendasMVC.Models.Cliente>
+@model List<VendasMVC.Models.Produto>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -22,36 +22,36 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>CPF</th>
                         <th>Nome</th>
+                        <th>Valor Unitário</th>
                         <th>Alterar</th>
-                        <th>Compras</th>
                         <th>Excluir</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>CPF</th>
                         <th>Nome</th>
+                        <th>Valor Unitário</th>
                         <th>Alterar</th>
-                        <th>Compras</th>
                         <th>Excluir</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var cliente in Model)
+                    @foreach (var produto in Model)
                     {
                         <tr>
-                            <td>@cliente.Cpf</td>
-                            <td>@cliente.Nome</td>
+                            <td>@produto.Nome</td>
+                            <td>@produto.ValorUnitario</td>
                             <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Cliente", new { id = cliente.IdCliente, acao = "./alterar" })'">Alterar</button>
+                                <div class="form-group">
+                                    <input class="form-control mr-sm-2" type="number" name="produto.QuantidadeEmEstoque" id="qtd" value="@produto.QuantidadeEmEstoque" />
+                                </div>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarCliente", "Cliente", new { id = cliente.IdCliente })'">Ver Compras</button>
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.RouteNames.FormProduto, new { id = produto.IdProduto, acao = "./alterar" })'">Alterar</button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger delete" name="@cliente.IdCliente">Excluir</button>
+                                <button type="button" class="btn btn-danger delete" name="@produto.IdProduto">Excluir</button>
                             </td>
                         </tr>
                     }

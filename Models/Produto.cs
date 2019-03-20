@@ -14,6 +14,7 @@ namespace VendasMVC.Models
         public int IdProduto { get; set; }
         public string Nome { get; set; }
         public decimal ValorUnitario { get; set; }
-        public Categoria Categoria { get; set; }
+        public int QuantidadeEmEstoque { get; set; }
+        public Categorias Categoria { get; set; }
     }
 }

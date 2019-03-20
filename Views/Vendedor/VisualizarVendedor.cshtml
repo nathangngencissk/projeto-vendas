@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model VendasMVC.Models.Cliente
+@model VendasMVC.Models.Vendedor
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Cards</h1>
@@ -118,7 +118,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var compra in Model.Compras)
+                    @foreach (var compra in Model.Vendas)
                     {
                     <tr>
                         <td>@compra.IdVenda</td>

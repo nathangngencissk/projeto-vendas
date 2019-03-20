@@ -9,7 +9,8 @@ namespace VendasMVC.ViewModel
     public class ProdutoFormViewModel
     {
         public Produto Produto { get; set; }
-        public ICollection<Categoria> Categorias { get; set; }
+        public Categorias Categoria { get; set; }
         public string Acao { get; set; }
+
     }
 }

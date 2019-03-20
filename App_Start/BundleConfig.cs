@@ -26,23 +26,31 @@ namespace VendasMVC
                       "~/Scripts/jquery.easing.min.js",
                       "~/Scripts/sb-admin-2.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/validate").Include(
+                      "~/Scripts/validate-cpf.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/funcionalidades").Include(
-                      "~/Scripts/Chart.min.js",
                       "~/Scripts/funcionalidades.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/chart").Include(
+                      "~/Scripts/Custom/Chart/Chart.min.js",
+                      "~/Scripts/Custom/Chart/pie-chart.js",
+                      "~/Scripts/Custom/Chart/area-chart.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
-                      "~/Scripts/DataTables/jquery.dataTables.min.js",
-                      "~/Scripts/DataTables/dataTables.bootstrap4.min.js"));
+                      "~/Scripts/Custom/DataTables/jquery.dataTables.min.js",
+                      "~/Scripts/Custom/DataTables/dataTables.bootstrap4.min.js",
+                      "~/Scripts/Custom/DataTables/dataTablesInit.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/Custom/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/template").Include(
-                      "~/Content/sb-admin-2.min.css"));
+                      "~/Content/Custom/sb-admin-2.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(
-                      "~/Content/dataTables.bootstrap4.min.css"));
+                      "~/Content/Custom/DataTables/dataTables.bootstrap4.min.css"));
         }
     }
 }
