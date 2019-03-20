@@ -22,7 +22,6 @@ namespace VendasMVC.Models
         public Vendedor Vendedor { get; set; }
 
         public DateTime DataDaVenda { get; set; }
-        public List<Produto> Produtos { get; set; }
         public decimal ValorTotal { get; set; }
         
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VendasMVC.Models;
+using VendasMVC.Models.Util;
 using VendasMVC.Persistence;
 using VendasMVC.ViewModel;
 

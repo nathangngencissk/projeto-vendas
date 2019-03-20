@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using VendasMVC.Models;
+using VendasMVC.Models.Util;
 using VendasMVC.Persistence;
 using VendasMVC.ViewModel;
 
@@ -36,7 +37,7 @@ namespace VendasMVC.Controllers
         }
 
         [Route("clientes/{id}", Name = RouteNames.VisualizarCliente)]
-        public ActionResult VisualizarCliente(int id = 1)
+        public ActionResult VisualizarCliente(int id)
         {
             Cliente cliente = new Cliente();
             using (var dao = new ClienteDaoEntity())

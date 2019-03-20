@@ -15,6 +15,6 @@ namespace VendasMVC.Models
         public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Senha { get; set; }
-        public List<Venda> Vendas { get; set; }
+        public int GrupoDeAcesso { get; set; }
     }
 }

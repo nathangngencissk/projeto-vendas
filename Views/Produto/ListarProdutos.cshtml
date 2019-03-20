@@ -24,6 +24,8 @@
                     <tr>
                         <th>Nome</th>
                         <th>Valor Unitário</th>
+                        <th>Estoque</th>
+                        <th>Categoria</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
                     </tr>
@@ -32,6 +34,8 @@
                     <tr>
                         <th>Nome</th>
                         <th>Valor Unitário</th>
+                        <th>Estoque</th>
+                        <th>Categoria</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
                     </tr>
@@ -42,13 +46,10 @@
                         <tr>
                             <td>@produto.Nome</td>
                             <td>@produto.ValorUnitario</td>
+                            <td>@produto.QuantidadeEmEstoque</td>
+                            <td>@produto.Categoria.Nome</td>
                             <td>
-                                <div class="form-group">
-                                    <input class="form-control mr-sm-2" type="number" name="produto.QuantidadeEmEstoque" id="qtd" value="@produto.QuantidadeEmEstoque" />
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.RouteNames.FormProduto, new { id = produto.IdProduto, acao = "./alterar" })'">Alterar</button>
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.Util.RouteNames.FormProduto, new { id = produto.IdProduto, acao = "./alterar" })'">Alterar</button>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger delete" name="@produto.IdProduto">Excluir</button>

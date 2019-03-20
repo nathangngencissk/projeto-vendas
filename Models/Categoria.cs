@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Reflection;
 using System.Web;
+using VendasMVC.Models.Util;
 
 namespace VendasMVC.Models
 {
-    [Table("CLIENTE")]
-    public class Cliente
+    [Table("CATEGORIA")]
+    public class Categoria
     {
         [Key]
-        public int IdCliente { get; set; }
+        public int IdCategoria { get; set; }
         public string Nome { get; set; }
-        public string Cpf { get; set; }
-    }   
+
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace VendasMVC.Models
+namespace VendasMVC.Models.Util
 {
     public abstract class RouteNames
     {
@@ -27,5 +27,12 @@ namespace VendasMVC.Models
         public const string VisualizarProduto = nameof(VisualizarProduto);
         public const string AlterarProdutos = nameof(AlterarProdutos);
         public const string FormProduto = nameof(FormProduto);
+
+        //Rotas para Venda
+        public const string ListarVendas = nameof(ListarVendas);
+        public const string AdicionarVenda = nameof(AdicionarVenda);
+        public const string VisualizarVenda = nameof(VisualizarVenda);
+        public const string AlterarVenda = nameof(AlterarVenda);
+        public const string FormVenda = nameof(FormVenda);
     }
 }

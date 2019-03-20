@@ -20,17 +20,9 @@ namespace VendasMVC.Persistence
 
         public void Alterar(Produto produto)
         {
-            Produto produtoAAlterar;
             using (var contexto = new LojaContext())
             {
-                List<Produto> lista = contexto.Produtos.ToList();
-                produtoAAlterar = (from p in contexto.Produtos.ToList() where p.IdProduto == produto.IdProduto select p).First();
-
-                produtoAAlterar.Nome = produto.Nome;
-                produtoAAlterar.ValorUnitario = produto.ValorUnitario;
-                produtoAAlterar.QuantidadeEmEstoque = produto.QuantidadeEmEstoque;
-                produtoAAlterar.Categoria = produto.Categoria;
-
+                contexto.Entry(produto).State = EntityState.Modified;
                 contexto.SaveChanges();
             }
         }
@@ -44,8 +36,9 @@ namespace VendasMVC.Persistence
         {
             Produto produto;
             using (var contexto = new LojaContext())
-            {
+            {               
                 produto = (from p in contexto.Produtos.ToList() where p.IdProduto == id select p).First();
+                produto.Categoria = contexto.Categorias.Find(produto.IdCategoria);
             }
 
             return produto;
@@ -57,6 +50,10 @@ namespace VendasMVC.Persistence
             using (var contexto = new LojaContext())
             {
                 lista = contexto.Produtos.ToList();
+                foreach(Produto p in lista)
+                {
+                    p.Categoria = contexto.Categorias.Find(p.IdCategoria);
+                }
             }
             return lista;
         }

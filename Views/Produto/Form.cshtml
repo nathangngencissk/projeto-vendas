@@ -19,11 +19,20 @@
     </div>
     <div class="form-group">
         <label for="valor">Valor unitário</label>
-        <input class="form-control mr-sm-2" type="number" name="produto.Nome" id="valor" value="@Model.Produto.ValorUnitario" />
+        <input class="form-control mr-sm-2" type="text" name="produto.ValorUnitario" id="valor" value="@Model.Produto.ValorUnitario" />
     </div>
     <div class="form-group">
         <label for="qtd">Estoque</label>
         <input class="form-control mr-sm-2" type="number" name="produto.QuantidadeEmEstoque" id="qtd" value="@Model.Produto.QuantidadeEmEstoque" />
+    </div>
+    <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <select class="form-control" id="categoria" name="produto.IdCategoria">
+            @foreach (var c in Model.Categorias)
+            {
+                <option value=@c.IdCategoria>@c.Nome</option>
+            }
+        </select>
     </div>
     <input type="text" name="produto.IdProduto" id="id" value=@Model.Produto.IdProduto hidden />
     <div class="form-group">

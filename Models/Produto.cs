@@ -15,6 +15,9 @@ namespace VendasMVC.Models
         public string Nome { get; set; }
         public decimal ValorUnitario { get; set; }
         public int QuantidadeEmEstoque { get; set; }
-        public Categorias Categoria { get; set; }
+
+        [ForeignKey("Categoria")]
+        public int IdCategoria { get; set; }
+        public Categoria Categoria { get; set; }
     }
 }
