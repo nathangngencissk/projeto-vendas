@@ -133,9 +133,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\VendaController.cs" />
     <Compile Include="Controllers\VendedorController.cs" />
@@ -144,19 +146,26 @@
     </Compile>
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\FormularioVenda.cs" />
     <Compile Include="Models\Produto.cs" />
+    <Compile Include="Models\ProdutoVenda.cs" />
     <Compile Include="Models\Util\PasswordEncrypt.cs" />
     <Compile Include="Models\Util\RouteNames.cs" />
+    <Compile Include="Models\Util\SessionTimeoutAttribute.cs" />
     <Compile Include="Models\Venda.cs" />
     <Compile Include="Models\Vendedor.cs" />
+    <Compile Include="Models\VendedorLogin.cs" />
     <Compile Include="Persistence\ClienteDaoEntity.cs" />
     <Compile Include="Persistence\IDao.cs" />
     <Compile Include="Persistence\LojaContext.cs" />
+    <Compile Include="Persistence\ProdutoVendaDaoEntity.cs" />
     <Compile Include="Persistence\ProdutoDaoEntity.cs" />
     <Compile Include="Persistence\CategoriaDaoEntity.cs" />
     <Compile Include="Persistence\VendaDaoEntity.cs" />
     <Compile Include="Persistence\VendedorDaoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\CategoriaFormViewModel .cs" />
+    <Compile Include="ViewModel\ErroLoginViewModel.cs" />
     <Compile Include="ViewModel\ProdutoFormViewModel.cs" />
     <Compile Include="ViewModel\VendaFormViewModel.cs" />
     <Compile Include="ViewModel\VendedorFormViewModel.cs" />
@@ -184,6 +193,7 @@
     <Content Include="Scripts\Custom\DataTables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\Custom\DataTables\dataTablesInit.js" />
     <Content Include="Scripts\Custom\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Custom\manipula-venda.js" />
     <Content Include="Scripts\Custom\validate-cpf.js" />
     <Content Include="Scripts\Custom\validate-valor.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -235,7 +245,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Cliente\ListarClientes.cshtml" />
@@ -256,10 +265,14 @@
     <Content Include="Views\Produto\Form.cshtml" />
     <Content Include="Views\Produto\ListarProdutos.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Venda\Form.cshtml" />
+    <Content Include="Views\Venda\ListarVendas.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Categoria\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Venda\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

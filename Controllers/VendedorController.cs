@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using VendasMVC.Models;
@@ -10,6 +11,7 @@ using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
+    [SessionTimeout]
     public class VendedorController : Controller
     {
         [Route("vendedores", Name = RouteNames.ListarVendedores)]
@@ -25,14 +27,17 @@ namespace VendasMVC.Controllers
         }
 
         [Route("vendedores/adicionar", Name = RouteNames.AdicionarVendedor)]
-        public ActionResult AdicionarProduto(Vendedor vendedor)
+        public ActionResult AdicionarVendedor(Vendedor vendedor, string senha)
         {
+            vendedor.SaltSenha = PasswordEncrypt.GetSalt();
+            vendedor.Senha = PasswordEncrypt.GetHash(senha, vendedor.SaltSenha);
+
             using (var dao = new VendedorDaoEntity())
             {
                 dao.Adicionar(vendedor);
             }
 
-            return RedirectToAction("ListarVendedor");
+            return RedirectToAction("ListarVendedores");
         }
 
         [Route("vendedores/{id}", Name = RouteNames.VisualizarVendedor)]

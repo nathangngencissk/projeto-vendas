@@ -50,6 +50,17 @@ namespace VendasMVC.Persistence
             return cliente;
         }
 
+        public Cliente Pegar(string cpf)
+        {
+            Cliente cliente;
+            using (var contexto = new LojaContext())
+            {
+                cliente = (from c in contexto.Clientes.ToList<Cliente>() where c.Cpf == cpf select c).First();
+            }
+
+            return cliente;
+        }
+
         public ICollection<Cliente> PegarLista()
         {
             List<Cliente> lista;

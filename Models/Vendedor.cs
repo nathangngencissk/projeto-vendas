@@ -14,7 +14,8 @@ namespace VendasMVC.Models
         public int IdVendedor { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
-        public string Senha { get; set; }
+        public byte[] Senha { get; set; }
+        public string SaltSenha { get; set; }
         public int GrupoDeAcesso { get; set; }
     }
 }

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    @Styles.Render("~/Content/datatables")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/datatables")
+}
+
+@model List<VendasMVC.Models.Venda>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Vendedor</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Número</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Vendedor</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var venda in Model)
+                    {
+                        <tr>
+                            <td>@venda.IdVenda</td>
+                            <td>@venda.DataDaVenda</td>
+                            <td>@venda.IdCliente</td>
+                            <td>@venda.IdVendedor</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

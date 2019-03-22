@@ -24,13 +24,19 @@ namespace VendasMVC
 
             bundles.Add(new ScriptBundle("~/bundles/template").Include(
                       "~/Scripts/jquery.easing.min.js",
-                      "~/Scripts/sb-admin-2.min.js"));
+                      "~/Scripts/Custom/sb-admin-2.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/validate").Include(
-                      "~/Scripts/validate-cpf.js"));
+            bundles.Add(new ScriptBundle("~/bundles/validateCpf").Include(
+                      "~/Scripts/Custom/validate-cpf.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/validateValor").Include(
+                      "~/Scripts/Custom/validate-valor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/funcionalidades").Include(
-                      "~/Scripts/funcionalidades.js"));
+                      "~/Scripts/Custom/funcionalidades.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/manipulaVenda").Include(
+                      "~/Scripts/Custom/manipula-venda.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/chart").Include(
                       "~/Scripts/Custom/Chart/Chart.min.js",

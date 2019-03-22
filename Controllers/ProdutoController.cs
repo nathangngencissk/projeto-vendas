@@ -10,6 +10,7 @@ using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
+    [SessionTimeout]
     public class ProdutoController : Controller
     {
         [Route("produtos", Name = "ListarProdutos")]

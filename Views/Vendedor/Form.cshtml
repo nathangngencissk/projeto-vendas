@@ -6,7 +6,7 @@
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/validate")
+    @Scripts.Render("~/bundles/validateCpf")
 }
 
 @model VendasMVC.ViewModel.VendedorFormViewModel
@@ -23,7 +23,14 @@
     </div>
     <div class="form-group">
         <label for="senha">Senha</label>
-        <input class="form-control mr-sm-2" type="password" name="vendedor.Nome" id="senha" value="@Model.Vendedor.Nome" />
+        <input class="form-control mr-sm-2" type="password" name="senha" id="senha" />
+    </div>
+    <div class="form-group">
+        <label for="acesso">GrupoDeAcesso</label>
+        <select class="form-control" id="acesso" name="vendedor.GrupoDeAcesso">
+            <option value=1>Vendedor</option>
+            <option value=2>Gerente</option>
+        </select>
     </div>
     <input type="text" name="vendedor.IdVendedor" id="id" value=@Model.Vendedor.IdVendedor hidden />
     <div class="form-group">

@@ -32,11 +32,11 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var cliente in Model)
+                    @foreach (var vendedor in Model)
                     {
                         <tr>
-                            <td>@cliente.Cpf</td>
-                            <td>@cliente.Nome</td>
+                            <td>@vendedor.Cpf</td>
+                            <td>@vendedor.Nome</td>
                             <td>
                                 <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Vendedor", new { id = vendedor.IdVendedor, acao = "./alterar" })'">Alterar</button> |
                                 <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarVendedor", "Vendedor", new { id = vendedor.IdVendedor })'">Ver Vendas</button> |

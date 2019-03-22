@@ -25,14 +25,24 @@ namespace VendasMVC.Models.Util
         public const string ListarProdutos = nameof(ListarProdutos);
         public const string AdicionarProduto = nameof(AdicionarProduto);
         public const string VisualizarProduto = nameof(VisualizarProduto);
-        public const string AlterarProdutos = nameof(AlterarProdutos);
+        public const string AlterarProduto = nameof(AlterarProduto);
         public const string FormProduto = nameof(FormProduto);
 
         //Rotas para Venda
         public const string ListarVendas = nameof(ListarVendas);
         public const string AdicionarVenda = nameof(AdicionarVenda);
         public const string VisualizarVenda = nameof(VisualizarVenda);
-        public const string AlterarVenda = nameof(AlterarVenda);
         public const string FormVenda = nameof(FormVenda);
+
+        //Rotas para Categoria
+        public const string ListarCategorias = nameof(ListarCategorias);
+        public const string AdicionarCategoria = nameof(AdicionarCategoria);
+        public const string AlterarCategoria = nameof(AlterarCategoria);
+        public const string VisualizarCategoria = nameof(VisualizarCategoria);
+        public const string FormCategoria = nameof(FormCategoria);
+
+        //Rotas Login
+        public const string Logout = nameof(Logout);
+
     }
 }

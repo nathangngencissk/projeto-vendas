@@ -51,6 +51,18 @@ namespace VendasMVC.Persistence
             return vendedor;
         }
 
+        public Vendedor Pegar(string cpf)
+        {
+            Vendedor vendedor;
+            using (var contexto = new LojaContext())
+            {
+                List<Vendedor> lista = contexto.Vendedores.ToList<Vendedor>();
+                vendedor = (from v in lista where v.Cpf == cpf select v).First();
+            }
+
+            return vendedor;
+        }
+
         public ICollection<Vendedor> PegarLista()
         {
             List<Vendedor> lista;

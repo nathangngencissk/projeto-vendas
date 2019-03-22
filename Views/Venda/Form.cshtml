@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/validateValor")
+    @Scripts.Render("~/bundles/manipulaVenda")
+}
+
+@model VendasMVC.ViewModel.VendaFormViewModel
+
+<h2>Form</h2>
+<form action="./adicionar" method="post" onsubmit="return validateForm()">
+    <div class="row">
+        <div id="produtos" class="col-8">
+            <div class="formProduto" id="formMolde">
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label for="categoria[0]">Categoria</label>
+                        <select class="form-control" id="categoria[0]">
+                            @foreach (var c in Model.Categorias)
+                            {
+                                <option value=@c.IdCategoria>@c.Nome</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="produto[0]">Produto</label>
+                        <select class="form-control" id="produto[0]" name="formularioVenda.Produtos[0].IdProduto">
+                            @foreach (var p in Model.Produtos)
+                            {
+                                <option value=@p.IdProduto>@p.Nome</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-2">
+                        <label for="qtd[0]">Quantidade</label>
+                        <input class="form-control mr-sm-2" type="number" name="formularioVenda.Produtos[0].Quantidade" id="qtd[0]" value="" />
+                    </div>
+                    <button type="button" class="btn btn-danger btn-circle btn-md mt-4 delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="cpf">CPF do Cliente</label>
+                <input class="form-control mr-sm-2" type="text" name="formularioVenda.Cpf" id="cpf" value="" />
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input class="form-control mr-sm-2" type="password" name="formularioVenda.Senha" id="senha" value="" />
+            </div>
+            <input type="text" name="formularioVenda.Venda.IdVenda" id="id" value=@Model.Venda.IdVenda hidden />
+            <div class="form-group">
+                <input class="form-control" type="submit" value="Submit" />
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info m-2" id="addProduto">Adicionar outro produto</button>
+</form>
+<button type="button" class="btn btn-info m-2" onclick="location.href='@Url.Action("Index", "Home")'">Voltar</button>

@@ -11,6 +11,7 @@ using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
+    [SessionTimeout]
     public class ClienteController : Controller
     {
         [Route("clientes", Name = RouteNames.ListarClientes)]

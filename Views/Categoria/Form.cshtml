@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model VendasMVC.ViewModel.CategoriaFormViewModel
+
+<h2>Form</h2>
+<form action=@Model.Acao method="post">
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input class="form-control mr-sm-2" type="text" name="categoria.Nome" id="nome" value="@Model.Categoria.Nome" />
+    </div>
+    <input type="text" name="categoria.IdCategoria" id="id" value=@Model.Categoria.IdCategoria hidden />
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Submit" />
+    </div>
+</form>
+<button type="button" class="btn btn-info m-2" onclick="location.href='@Url.Action("Index", "Home")'">Voltar</button>
+

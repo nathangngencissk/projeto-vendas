@@ -41,10 +41,12 @@ namespace VendasMVC.Persistence
 
         public ICollection<Venda> PegarLista()
         {
+            List<Venda> lista;
             using (var contexto = new LojaContext())
             {
-                return contexto.Vendas as ICollection<Venda>;
+                lista = contexto.Vendas.ToList();
             }
+            return lista;
         }
 
         public void Remover(int id)

@@ -10,29 +10,77 @@ using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
+    [SessionTimeout]
     public class VendaController : Controller
     {
         [Route("vendas", Name = RouteNames.ListarVendas)]
-        public ActionResult ListarVendas()
+        public ActionResult ListarVendas(int id = 0)
         {
             List<Venda> lista;
             using (var dao = new VendaDaoEntity())
             {
                 lista = dao.PegarLista() as List<Venda>;
+                if (id != 0)
+                {
+                    lista = (from v in lista where v.IdVendedor == id select v) as List<Venda>;
+                }              
             }
 
             return View(lista);
         }
 
         [Route("vendas/adicionar", Name = RouteNames.AdicionarVenda)]
-        public ActionResult AdicionarVenda(Venda venda)
-        {
-            using (var dao = new VendaDaoEntity())
+        public ActionResult AdicionarVenda(FormularioVenda formularioVenda)
+        {      
+            Cliente cliente;
+            using (var dao = new ClienteDaoEntity())
             {
-                dao.Adicionar(venda);
+                cliente = dao.Pegar(formularioVenda.Cpf);
             }
 
-            return RedirectToAction("ListarVendas");
+            Vendedor vendedor;
+            using (var dao = new VendedorDaoEntity())
+            {
+                vendedor = dao.Pegar(Convert.ToInt32(System.Web.HttpContext.Current.Session["IdVendedor"].ToString()));
+            }
+
+            formularioVenda.Venda.IdCliente = cliente.IdCliente;
+            formularioVenda.Venda.IdVendedor = vendedor.IdVendedor;
+            formularioVenda.Venda.DataDaVenda = DateTime.Now;
+
+            if (PasswordEncrypt.CompareHash(formularioVenda.Senha, vendedor.Senha, vendedor.SaltSenha))
+            {
+                int idDaVenda;
+
+                using (var dao = new VendaDaoEntity())
+                {
+                    dao.Adicionar(formularioVenda.Venda);
+                    List<Venda>lista = dao.PegarLista() as List<Venda>;
+                    idDaVenda = lista.Last().IdVenda;
+                }
+
+                Produto p;
+                using (var daoProduto = new ProdutoDaoEntity())
+                {
+                    using (var dao = new ProdutoVendaDaoEntity())
+                    {
+                        foreach (var produto in formularioVenda.Produtos)
+                        {
+                            p = daoProduto.Pegar(produto.IdProduto);
+                            produto.IdVenda = idDaVenda;
+                            produto.Valor = produto.Quantidade * p.ValorUnitario;
+                            dao.Adicionar(produto);
+                        }
+                    }
+                }
+
+
+                
+                return RedirectToAction("ListarVendas");
+            }
+            return RedirectToAction("Form");
+
+            
         }
 
         [Route("vendas/{id}", Name = RouteNames.VisualizarVenda)]
@@ -46,40 +94,10 @@ namespace VendasMVC.Controllers
             return View(venda);
         }
 
-        [Route("vendas/alterar", Name = RouteNames.AlterarVenda)]
-        public ActionResult AlterarCliente(Venda venda)
+        [Route("vendas/form", Name = RouteNames.FormVenda)]
+        public ActionResult Form()
         {
-            using (var dao = new VendaDaoEntity())
-            {
-                dao.Alterar(venda);
-            }
-
-            return RedirectToAction("ListarVendas");
-        }
-
-        [Route("vendas/{acao}/{id}", Name = RouteNames.FormVenda)]
-        public ActionResult Form(int id, string acao)
-        {
-
-            VendaFormViewModel vm = new VendaFormViewModel
-            {
-                Acao = $"../{acao}"
-            };
-
-            if (id == 0)
-            {
-                vm.Venda = new Venda();
-            }
-            else
-            {
-                using (var dao = new VendaDaoEntity())
-                {
-                    vm.Venda = dao.Pegar(id);
-                }
-            }
-
-            return View(vm);
-
+            return View(new VendaFormViewModel());
         }
     }
 }

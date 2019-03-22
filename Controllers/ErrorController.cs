@@ -14,5 +14,10 @@ namespace VendasMVC.Controllers
             Response.StatusCode = 404;
             return View();
         }
+        [Route("Error")]
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }
