@@ -45,6 +45,11 @@ namespace VendasMVC.Persistence
             using (var contexto = new LojaContext())
             {
                 lista = contexto.Vendas.ToList();
+                foreach (Venda v in lista)
+                {
+                    v.Vendedor = contexto.Vendedores.Find(v.IdVendedor);
+                    v.Cliente = contexto.Clientes.Find(v.IdCliente);
+                }
             }
             return lista;
         }

@@ -10,12 +10,15 @@ using VendasMVC.ViewModel;
 
 namespace VendasMVC.Controllers
 {
+    [SessionTimeout]
     public class CategoriaController : Controller
     {
-        [Route("categorias/listar", Name = RouteNames.ListarCategorias)]
+        [HttpGet]
+        [Route("categorias", Name = RouteNames.ListarCategorias)]
         public ActionResult ListarCategorias()
         {
             List<Categoria> lista;
+
             using (var dao = new CategoriaDaoEntity())
             {
                 lista = dao.PegarLista() as List<Categoria>;
@@ -24,6 +27,7 @@ namespace VendasMVC.Controllers
             return View(lista);
         }
 
+        [HttpPost]
         [Route("categorias/adicionar", Name = RouteNames.AdicionarCategoria)]
         public ActionResult AdicionarCategoria(Categoria categoria)
         {
@@ -46,6 +50,7 @@ namespace VendasMVC.Controllers
             return View(categoria);
         }
 
+        [HttpPost]
         [Route("categorias/alterar", Name = RouteNames.AlterarCategoria)]
         public ActionResult AlterarCategoria(Categoria categoria)
         {
@@ -80,6 +85,16 @@ namespace VendasMVC.Controllers
 
             return View(vm);
 
+        }
+
+        [Route("categorias/remover/{id}", Name = RouteNames.RemoverCategoria)]
+        public JsonResult Remover(int id)
+        {
+            using (var dao = new CategoriaDaoEntity())
+            {
+                dao.Remover(id);
+            }
+            return Json(new { });
         }
     }
 }

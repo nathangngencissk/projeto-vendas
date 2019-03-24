@@ -12,10 +12,10 @@
     @Scripts.Render("~/bundles/datatables")
 }
 
-@model List<VendasMVC.Models.Venda>
+@model VendasMVC.ViewModel.ListaVendasViewModel
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Vendas</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -26,6 +26,8 @@
                         <th>Data</th>
                         <th>Cliente</th>
                         <th>Vendedor</th>
+                        <th>Produtos</th>
+                        <th>Valor</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -34,17 +36,67 @@
                         <th>Data</th>
                         <th>Cliente</th>
                         <th>Vendedor</th>
+                        <th>Produtos</th>
+                        <th>Valor</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var venda in Model)
+                    @foreach (var venda in Model.Vendas)
                     {
-                        <tr>
-                            <td>@venda.IdVenda</td>
-                            <td>@venda.DataDaVenda</td>
-                            <td>@venda.IdCliente</td>
-                            <td>@venda.IdVendedor</td>
-                        </tr>
+                        decimal valorTotal = 0;
+                        foreach (var produto in Model.Produtos)
+                        {
+                            if (produto.IdVenda == venda.IdVenda)
+                            {
+                                valorTotal += produto.Valor;
+                            }
+                        }
+                    <tr>
+                        <td class="align-middle">@venda.IdVenda</td>
+                        <td class="align-middle">@venda.DataDaVenda</td>
+                        <td class="align-middle">@venda.Cliente.Nome</td>
+                        <td class="align-middle">@venda.Vendedor.Nome</td>
+                        <td class="align-middle">
+                            <div class="dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="produtosDropdown"
+                                   role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    Produtos<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="produtosDropdown">
+                                    <table class="table table-bordered dropdown-item">
+                                        <thead>
+                                            <tr>
+                                                <td>Produto</td>
+                                                <td>Quantidade</td>
+                                                <td>Valor</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach (var produto in Model.Produtos)
+                                                {
+                                                    if (produto.IdVenda == venda.IdVenda)
+                                                    {
+                                                        <td>@produto.Produto.Nome</td>
+                                                        <td>@produto.Quantidade x</td>
+                                                        <td>@String.Format("{0:C2}", produto.Valor)</td>
+                                                    }
+                                                }
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">@String.Format("{0:C2}", valorTotal)</td>
+                    </tr>
                     }
                 </tbody>
             </table>

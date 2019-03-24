@@ -22,9 +22,11 @@
 function validateForm() {
     const CPF = document.querySelector("#cpf").value;
     if (!TestaCPF(CPF)) {
-        alert("CPF incorreto");
+        document.querySelector("#mensagemCpf").innerHTML = "Por favor insira um CPF válido";
+        document.querySelector("#mensagemCpf").classList.remove("invisible");
         return false;
     } else {
+        document.querySelector("#mensagemCpf").classList.add("invisible");
         return true;
     }
 } 

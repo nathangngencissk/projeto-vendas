@@ -9,6 +9,7 @@
 
 @section scripts {
     @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/deleteButton")
 }
 
 @model List<VendasMVC.Models.Vendedor>
@@ -23,24 +24,34 @@
                     <tr>
                         <th>CPF</th>
                         <th>Nome</th>
+                        <th>Alterar</th>
+                        <th>Vendas</th>
+                        <th>Excluir</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>CPF</th>
                         <th>Nome</th>
+                        <th>Alterar</th>
+                        <th>Vendas</th>
+                        <th>Excluir</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     @foreach (var vendedor in Model)
                     {
-                        <tr>
-                            <td>@vendedor.Cpf</td>
-                            <td>@vendedor.Nome</td>
-                            <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Vendedor", new { id = vendedor.IdVendedor, acao = "./alterar" })'">Alterar</button> |
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarVendedor", "Vendedor", new { id = vendedor.IdVendedor })'">Ver Vendas</button> |
-                                <button type="button" class="btn btn-danger delete" name="@vendedor.IdVendedor">Delete</button>
+                        <tr id="@vendedor.IdVendedor">
+                            <td class="align-middle">@vendedor.Cpf</td>
+                            <td class="align-middle">@vendedor.Nome</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Vendedor", new { id = vendedor.IdVendedor, acao = "./alterar" })'">Alterar</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarVendedor", "Vendedor", new { id = vendedor.IdVendedor })'">Ver Vendas</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" name="@vendedor.IdVendedor" class="btn btn-danger btn-circle btn-md delete"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     }

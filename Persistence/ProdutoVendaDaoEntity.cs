@@ -49,6 +49,10 @@ namespace VendasMVC.Persistence
             using (var contexto = new LojaContext())
             {
                 lista = contexto.ProdutosVenda.ToList();
+                foreach (ProdutoVenda pv in lista)
+                {
+                    pv.Produto = contexto.Produtos.Find(pv.IdProduto);
+                }
             }
             return lista;
         }

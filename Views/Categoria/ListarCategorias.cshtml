@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Lista de categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    @Styles.Render("~/Content/datatables")
+}
+@section scripts {
+    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/deleteButton")
+}
+@model List<VendasMVC.Models.Categoria>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Categorias</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <div>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Alterar</th>
+                            <th>Excluir</th>
+                        </tr>
+                    </div>                   
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Alterar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var categoria in Model)
+                    {
+                        <tr id="@categoria.IdCategoria">
+                            <td class="align-middle">@categoria.Nome</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.Util.RouteNames.FormCategoria, new { id = categoria.IdCategoria, acao = "alterar" })'">Alterar</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" name="@categoria.IdCategoria" class="btn btn-danger btn-circle btn-md delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

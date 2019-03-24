@@ -40,12 +40,57 @@ namespace VendasMVC.Controllers
         [Route("clientes/{id}", Name = RouteNames.VisualizarCliente)]
         public ActionResult VisualizarCliente(int id)
         {
-            Cliente cliente = new Cliente();
+            Cliente cliente;
+            List<Venda> comprasDoCliente = new List<Venda>();
+            List<Venda> comprasDoMes = new List<Venda>();
+            List<ProdutoVenda> produtos;
+            List<ProdutoVenda> produtosDoMes = new List<ProdutoVenda>();
+            decimal ValorTotal = 0;
+            decimal ValorMensal = 0;
             using (var dao = new ClienteDaoEntity())
             {
                 cliente = dao.Pegar(id);
             }
-            return View(cliente);
+            using (var dao = new VendaDaoEntity())
+            {
+                List<Venda> lista = dao.PegarLista() as List<Venda>;
+                comprasDoCliente.AddRange(from v in lista where v.IdCliente == cliente.IdCliente select v);
+            }
+            using (var dao = new ProdutoVendaDaoEntity())
+            {
+                produtos = dao.PegarLista() as List<ProdutoVenda>;
+            }
+
+            foreach (ProdutoVenda pv in produtos)
+            {
+                ValorTotal += pv.Valor;
+            }
+            
+            comprasDoMes.AddRange(from v in comprasDoCliente where v.DataDaVenda.Month.Equals(DateTime.Today.Month) select v);
+            List<int> ids = new List<int>();
+            foreach(Venda compra in comprasDoMes)
+            {
+                ids.Add(compra.IdVenda);
+            }
+
+            produtosDoMes.AddRange(from p in produtos where ids.Contains(p.IdVenda) select p);
+            foreach (ProdutoVenda pv in produtosDoMes)
+            {
+                ValorMensal += pv.Valor;
+            }
+
+            VisualizarComprasClientesViewModel vm = new VisualizarComprasClientesViewModel
+            {
+                Cliente = cliente,
+                Compras = comprasDoCliente,
+                Produtos = produtos,
+                ValorTotal = ValorTotal,
+                ValorMensal = ValorMensal,
+                VolumeCompras = comprasDoCliente.Count,
+                VolumeComprasMes = comprasDoMes.Count
+            };
+
+            return View(vm);
         }
 
         [Route("clientes/alterar", Name = RouteNames.AlterarCliente)]
@@ -81,6 +126,16 @@ namespace VendasMVC.Controllers
 
             return View(vm);
             
+        }
+
+        [Route("clientes/remover/{id}", Name = RouteNames.RemoverCliente)]
+        public JsonResult Remover(int id)
+        {
+            using (var dao = new ClienteDaoEntity())
+            {
+                dao.Remover(id);
+            }
+            return Json(new { });
         }
 
     }

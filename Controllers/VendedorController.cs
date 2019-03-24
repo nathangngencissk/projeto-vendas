@@ -41,14 +41,69 @@ namespace VendasMVC.Controllers
         }
 
         [Route("vendedores/{id}", Name = RouteNames.VisualizarVendedor)]
-        public ActionResult VisualizarProduto(int id)
+        public ActionResult VisualizarVendedor(int id)
         {
-            Vendedor vendedor = new Vendedor();
+            Vendedor vendedor;
+            List<Venda> vendas = new List<Venda>();
+            List<Venda> vendasDoMes = new List<Venda>();
+            List<ProdutoVenda> produtos = new List<ProdutoVenda>();
+            List<ProdutoVenda> produtosDoMes = new List<ProdutoVenda>();
+            decimal ValorTotal = 0;
+            decimal ValorMensal = 0;
+
+            List<int> ids = new List<int>();
+
             using (var dao = new VendedorDaoEntity())
             {
                 vendedor = dao.Pegar(id);
             }
-            return View(vendedor);
+            using (var dao = new VendaDaoEntity())
+            {
+                List<Venda> lista = dao.PegarLista() as List<Venda>;
+                vendas.AddRange(from v in lista where v.IdVendedor == vendedor.IdVendedor select v);
+
+            }
+
+            foreach(Venda venda in vendas)
+            {
+                ids.Add(venda.IdVenda);
+            }
+            using (var dao = new ProdutoVendaDaoEntity())
+            {
+                List<ProdutoVenda> lista = dao.PegarLista() as List<ProdutoVenda>;
+                produtos.AddRange(from p in lista where ids.Contains(p.IdVenda) select p);
+            }
+
+            foreach (ProdutoVenda pv in produtos)
+            {
+                ValorTotal += pv.Valor;
+            }
+            ids.Clear();
+            vendasDoMes.AddRange(from v in vendas where v.DataDaVenda.Month.Equals(DateTime.Today.Month) select v);
+            
+            foreach (Venda venda in vendasDoMes)
+            {
+                ids.Add(venda.IdVenda);
+            }
+
+            produtosDoMes.AddRange(from p in produtos where ids.Contains(p.IdVenda) select p);
+            foreach (ProdutoVenda pv in produtosDoMes)
+            {
+                ValorMensal += pv.Valor;
+            }
+
+            VisualizarVendasVendedorViewModel vm = new VisualizarVendasVendedorViewModel
+            {
+                Vendedor = vendedor,
+                Vendas = vendas,
+                Produtos = produtos,
+                ValorTotal = ValorTotal,
+                ValorMensal = ValorMensal,
+                VolumeVendas = vendas.Count,
+                VolumeVendasMes = vendasDoMes.Count
+            };
+
+            return View(vm);
         }
 
         [Route("vendedores/alterar", Name = RouteNames.AlterarVendedor)]
@@ -85,6 +140,16 @@ namespace VendasMVC.Controllers
 
             return View(vm);
 
+        }
+
+        [Route("vendedores/remover/{id}", Name = RouteNames.RemoverVendedor)]
+        public JsonResult Remover(int id)
+        {
+            using (var dao = new VendedorDaoEntity())
+            {
+                dao.Remover(id);
+            }
+            return Json(new { });
         }
     }
 }

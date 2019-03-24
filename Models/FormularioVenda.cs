@@ -16,7 +16,6 @@ namespace VendasMVC.Models
         {
             Venda = new Venda();
             Produtos = new List<ProdutoVenda>();
-            Produtos.Add(new ProdutoVenda());
         }
     }
 }

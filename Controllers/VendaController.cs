@@ -14,19 +14,26 @@ namespace VendasMVC.Controllers
     public class VendaController : Controller
     {
         [Route("vendas", Name = RouteNames.ListarVendas)]
-        public ActionResult ListarVendas(int id = 0)
+        public ActionResult ListarVendas()
         {
-            List<Venda> lista;
+            List<Venda> vendas;
+            List<ProdutoVenda> produtos;
             using (var dao = new VendaDaoEntity())
             {
-                lista = dao.PegarLista() as List<Venda>;
-                if (id != 0)
-                {
-                    lista = (from v in lista where v.IdVendedor == id select v) as List<Venda>;
-                }              
+                vendas = dao.PegarLista() as List<Venda>;
+            }
+            using (var dao = new ProdutoVendaDaoEntity())
+            {
+                produtos = dao.PegarLista() as List<ProdutoVenda>;
             }
 
-            return View(lista);
+            ListaVendasViewModel vm = new ListaVendasViewModel
+            {
+                Vendas = vendas,
+                Produtos = produtos       
+            };
+
+            return View(vm);
         }
 
         [Route("vendas/adicionar", Name = RouteNames.AdicionarVenda)]
@@ -37,7 +44,6 @@ namespace VendasMVC.Controllers
             {
                 cliente = dao.Pegar(formularioVenda.Cpf);
             }
-
             Vendedor vendedor;
             using (var dao = new VendedorDaoEntity())
             {
@@ -67,6 +73,8 @@ namespace VendasMVC.Controllers
                         foreach (var produto in formularioVenda.Produtos)
                         {
                             p = daoProduto.Pegar(produto.IdProduto);
+                            p.QuantidadeEmEstoque--;
+                            daoProduto.Alterar(p);
                             produto.IdVenda = idDaVenda;
                             produto.Valor = produto.Quantidade * p.ValorUnitario;
                             dao.Adicionar(produto);

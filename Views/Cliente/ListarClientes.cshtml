@@ -3,15 +3,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @section styles {
     @Styles.Render("~/Content/datatables")
 }
-
 @section scripts {
     @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/deleteButton")
 }
-
 @model List<VendasMVC.Models.Cliente>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -42,16 +40,16 @@
                     @foreach (var cliente in Model)
                     {
                         <tr>
-                            <td>@cliente.Cpf</td>
-                            <td>@cliente.Nome</td>
-                            <td>
+                            <td class="align-middle">@cliente.Cpf</td>
+                            <td class="align-middle">@cliente.Nome</td>
+                            <td class="align-middle">
                                 <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Form", "Cliente", new { id = cliente.IdCliente, acao = "./alterar" })'">Alterar</button>
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("VisualizarCliente", "Cliente", new { id = cliente.IdCliente })'">Ver Compras</button>
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-danger delete" name="@cliente.IdCliente">Excluir</button>
+                            <td class="align-middle">
+                                <button type="button" name="@cliente.IdCliente" class="btn btn-danger btn-circle btn-md delete"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     }

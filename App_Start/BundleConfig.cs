@@ -22,6 +22,9 @@ namespace VendasMVC
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/popper").Include(
+                      "~/Scripts/Custom/popper.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/template").Include(
                       "~/Scripts/jquery.easing.min.js",
                       "~/Scripts/Custom/sb-admin-2.min.js"));
@@ -37,6 +40,9 @@ namespace VendasMVC
 
             bundles.Add(new ScriptBundle("~/bundles/manipulaVenda").Include(
                       "~/Scripts/Custom/manipula-venda.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/deleteButton").Include(
+                      "~/Scripts/Custom/delete-button.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/chart").Include(
                       "~/Scripts/Custom/Chart/Chart.min.js",

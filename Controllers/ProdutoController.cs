@@ -13,7 +13,8 @@ namespace VendasMVC.Controllers
     [SessionTimeout]
     public class ProdutoController : Controller
     {
-        [Route("produtos", Name = "ListarProdutos")]
+        [HttpGet]
+        [Route("produtos", Name = RouteNames.ListarProdutos)]
         public ActionResult ListarProdutos()
         {
             List<Produto> lista;
@@ -25,34 +26,60 @@ namespace VendasMVC.Controllers
             return View(lista);
         }
 
-        [Route("produtos/adicionar", Name = "AdicionarProduto")]
+        [HttpPost]
+        [Route("produtos/adicionar", Name = RouteNames.AdicionarProduto)]
         public ActionResult AdicionarProduto(Produto produto)
         {
-            using (var dao = new ProdutoDaoEntity())
+            if (ModelState.IsValid)
             {
-                dao.Adicionar(produto);
+                using (var dao = new ProdutoDaoEntity())
+                {
+                    dao.Adicionar(produto);
+                }
             }
 
             return RedirectToAction("ListarProdutos");
         }
 
-        [Route("produtos/{id}", Name = "VisualizarProduto")]
+        [Route("produtos/{id}", Name = RouteNames.VisualizarProduto)]
         public ActionResult VisualizarProduto(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Produto produto = new Produto();
+                using (var dao = new ProdutoDaoEntity())
+                {
+                    produto = dao.Pegar(id);
+                }
+                return View(produto);
+            }
+            else
+            {
+                return RedirectToAction("ListarProdutos");
+            }
+        }
+
+        [Route("produtos/{id}/json", Name = "VisualizarProdutoJson")]
+        public JsonResult VisualizarProdutoJson(int id)
         {
             Produto produto = new Produto();
             using (var dao = new ProdutoDaoEntity())
             {
                 produto = dao.Pegar(id);
             }
-            return View(produto);
+            return Json(new { qtd = produto.QuantidadeEmEstoque });
         }
 
-        [Route("produtos/alterar", Name = "AlterarProduto")]
+        [HttpPost]
+        [Route("produtos/alterar", Name = RouteNames.AlterarProduto)]
         public ActionResult AlterarProduto(Produto produto)
         {
-            using (var dao = new ProdutoDaoEntity())
+            if (ModelState.IsValid)
             {
-                dao.Alterar(produto);
+                using (var dao = new ProdutoDaoEntity())
+                {
+                    dao.Alterar(produto);
+                }
             }
 
             return RedirectToAction("ListarProdutos");
@@ -61,26 +88,41 @@ namespace VendasMVC.Controllers
         [Route("produtos/{acao}/{id}", Name = RouteNames.FormProduto)]
         public ActionResult Form(int id, string acao)
         {
-
-            ProdutoFormViewModel vm = new ProdutoFormViewModel
+            if (ModelState.IsValid)
             {
-                Acao = $"../{acao}"
-            };
+                ProdutoFormViewModel vm = new ProdutoFormViewModel
+                {
+                    Acao = $"../{acao}"
+                };
 
-            if (id == 0)
-            {
-                vm.Produto = new Produto();
+                if (id == 0)
+                {
+                    vm.Produto = new Produto();
+                }
+                else
+                {
+                    using (var dao = new ProdutoDaoEntity())
+                    {
+                        vm.Produto = dao.Pegar(id);
+                    }
+                }
+
+                return View(vm);
             }
             else
             {
-                using (var dao = new ProdutoDaoEntity())
-                {
-                    vm.Produto = dao.Pegar(id);
-                }
+                return RedirectToAction("ListarProdutos");
             }
+        }
 
-            return View(vm);
-
+        [Route("produtos/remover/{id}", Name = RouteNames.RemoverProduto)]
+        public JsonResult Remover(int id)
+        {
+            using (var dao = new ProdutoDaoEntity())
+            {
+                dao.Remover(id);
+            }
+            return Json(new { });
         }
     }
 }

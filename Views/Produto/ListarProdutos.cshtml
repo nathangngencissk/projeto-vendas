@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista de produtos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,12 +10,13 @@
 
 @section scripts {
     @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/deleteButton")
 }
 
 @model List<VendasMVC.Models.Produto>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Produtos</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -43,16 +44,16 @@
                 <tbody>
                     @foreach (var produto in Model)
                     {
-                        <tr>
-                            <td>@produto.Nome</td>
-                            <td>@produto.ValorUnitario</td>
-                            <td>@produto.QuantidadeEmEstoque</td>
-                            <td>@produto.Categoria.Nome</td>
-                            <td>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.Util.RouteNames.FormProduto, new { id = produto.IdProduto, acao = "./alterar" })'">Alterar</button>
+                        <tr id="@produto.IdProduto">
+                            <td class="align-middle">@produto.Nome</td>
+                            <td class="align-middle">@String.Format("{0:C2}", produto.ValorUnitario)</td>
+                            <td class="align-middle">@produto.QuantidadeEmEstoque</td>
+                            <td class="align-middle">@produto.Categoria.Nome</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.RouteUrl(VendasMVC.Models.Util.RouteNames.FormProduto, new { id = produto.IdProduto, acao = "alterar" })'">Alterar</button>
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-danger delete" name="@produto.IdProduto">Excluir</button>
+                            <td class="align-middle">
+                                <button type="button" name="@produto.IdProduto" class="btn btn-danger btn-circle btn-md delete"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     }
