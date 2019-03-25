@@ -11,7 +11,7 @@
 
 @model VendasMVC.ViewModel.VendaFormViewModel
 
-<h2>Form</h2>
+<h2>Formulário de venda</h2>
 <form action="./adicionar" method="post" onsubmit="return validateForm()">
     <div class="row">
         <div id="produtos" class="col-8">
@@ -20,18 +20,20 @@
                     <div class="form-group col-3">
                         <label for="categoria[0]">Categoria</label>
                         <select class="form-control" id="categoria[0]">
+                            <option selected="selected"></option>
                             @foreach (var c in Model.Categorias)
                             {
                                 <option value=@c.IdCategoria>@c.Nome</option>
                             }
                         </select>
                     </div>
-                    <div class="form-group col-5">
+                    <div class="form-group col-4">
                         <label for="produto[0]">Produto</label>
                         <select class="form-control" id="produto[0]" name="formularioVenda.Produtos[0].IdProduto">
+                            <option selected="selected"></option>
                             @foreach (var p in Model.Produtos)
                             {
-                                <option value=@p.IdProduto>@p.Nome</option>
+                                <option data-categoria=@p.IdCategoria value=@p.IdProduto>@p.Nome</option>
                             }
                         </select>
                     </div>
@@ -39,8 +41,7 @@
                         <label for="qtd[0]">Quantidade</label>
                         <input class="form-control mr-sm-2" type="number" name="formularioVenda.Produtos[0].Quantidade" id="qtd[0]" value="" />
                     </div>
-                    <div class="alert alert-primary col-1" role="alert" id="estoque[0]">
-                        @Model.Produtos[0].QuantidadeEmEstoque disponíveis
+                    <div class="alert alert-danger col-2 invisible" role="alert" id="estoque[0]">
                     </div>
                     <button type="button" class="btn btn-danger btn-circle btn-md delete mt-4 ml-4"><i class="fas fa-trash"></i></button>                  
                 </div>

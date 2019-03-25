@@ -40,7 +40,7 @@ namespace VendasMVC.Controllers
         }
 
         [Route("categorias/{id}", Name = RouteNames.VisualizarCategoria)]
-        public ActionResult VisualizarCliente(int id)
+        public ActionResult VisualizarCategoria(int id)
         {
             Categoria categoria = new Categoria();
             using (var dao = new CategoriaDaoEntity())
@@ -48,6 +48,74 @@ namespace VendasMVC.Controllers
                 categoria = dao.Pegar(id);
             }
             return View(categoria);
+        }
+
+        [Route("categorias/top3/json", Name = "Top3Categorias")]
+        public JsonResult Top3Categorias()
+        {
+            int id = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdVendedor"].ToString());
+
+            Vendedor vendedor;
+            List<Venda> vendas = new List<Venda>();
+            List<ProdutoVenda> produtos = new List<ProdutoVenda>();
+            var categorias = new Dictionary<string, int>();
+
+            using (var dao = new CategoriaDaoEntity())
+            {
+                List<Categoria> lista = dao.PegarLista() as List<Categoria>;
+                foreach (var item in lista)
+                {
+                    categorias.Add(item.Nome, 0);
+                }
+            }
+
+            List<int> ids = new List<int>();
+
+            using (var dao = new VendedorDaoEntity())
+            {
+                vendedor = dao.Pegar(id);
+            }
+            using (var dao = new VendaDaoEntity())
+            {
+                List<Venda> lista = dao.PegarLista() as List<Venda>;
+                vendas.AddRange(from v in lista where v.IdVendedor == vendedor.IdVendedor select v);
+
+            }
+
+            foreach (Venda venda in vendas)
+            {
+                ids.Add(venda.IdVenda);
+            }
+            using (var dao = new ProdutoVendaDaoEntity())
+            {
+                List<ProdutoVenda> lista = dao.PegarLista() as List<ProdutoVenda>;
+                produtos.AddRange(from p in lista where ids.Contains(p.IdVenda) select p);
+            }
+
+            foreach (ProdutoVenda pv in produtos)
+            {
+                categorias[pv.Produto.Categoria.Nome] += 1 * pv.Quantidade;
+            }
+
+            Dictionary<string, int> val = new Dictionary<string, int>();
+            var valores = from ele in categorias
+                      orderby ele.Value descending
+                      select ele;
+
+            foreach (var item in valores)
+            {
+                val.Add(item.Key, item.Value);
+            }
+
+            Dictionary<string, int>.KeyCollection keys = val.Keys;
+
+            return Json(new { categoria1 = keys.ElementAt(0),
+                              categoria2 = keys.ElementAt(1),
+                              categoria3 = keys.ElementAt(2),
+                              valor1 = val[keys.ElementAt(0)],
+                              valor2 = val[keys.ElementAt(1)],
+                              valor3 = val[keys.ElementAt(2)]
+            });
         }
 
         [HttpPost]

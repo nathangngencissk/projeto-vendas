@@ -67,7 +67,11 @@ namespace VendasMVC.Controllers
             {
                 produto = dao.Pegar(id);
             }
-            return Json(new { qtd = produto.QuantidadeEmEstoque });
+            return Json(new { qtd = produto.QuantidadeEmEstoque,
+                              nome = produto.Nome,
+                              id = produto.IdProduto,
+                              categoria = produto.Categoria.IdCategoria,
+                              valor = produto.ValorUnitario });
         }
 
         [HttpPost]

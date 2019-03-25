@@ -13,7 +13,7 @@ namespace VendasMVC.Models.Util
             HttpContext ctx = HttpContext.Current;
             if (HttpContext.Current.Session["IdVendedor"] == null)
             {
-                filterContext.Result = new RedirectResult("login");
+                filterContext.Result = new RedirectResult("/login");
                 return;
             }
             base.OnActionExecuting(filterContext);

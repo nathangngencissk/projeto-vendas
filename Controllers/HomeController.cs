@@ -16,29 +16,76 @@ namespace VendasMVC.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<Venda> vendas;
+            int id = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdVendedor"].ToString());
+
+            Vendedor vendedor;
+            List<Venda> vendas = new List<Venda>();
+            List<Venda> vendasDoMes = new List<Venda>();
+            List<ProdutoVenda> produtos = new List<ProdutoVenda>();
+            List<ProdutoVenda> produtosDoMes = new List<ProdutoVenda>();
+            decimal ValorTotal = 0;
+            decimal ValorMensal = 0;
+            var categorias = new Dictionary<string, int>();
+
+            using (var dao = new CategoriaDaoEntity())
+            {
+                List<Categoria> lista = dao.PegarLista() as List<Categoria>;
+                foreach (var item in lista)
+                {
+                    categorias.Add(item.Nome, 0);
+                }
+            }
+
+            List<int> ids = new List<int>();
+
+            using (var dao = new VendedorDaoEntity())
+            {
+                vendedor = dao.Pegar(id);
+            }
             using (var dao = new VendaDaoEntity())
             {
-                vendas = dao.PegarLista() as List<Venda>;
+                List<Venda> lista = dao.PegarLista() as List<Venda>;
+                vendas.AddRange(from v in lista where v.IdVendedor == vendedor.IdVendedor select v);
+
             }
 
-            //Se for vendedor filtra a lista para apenas as vendas daquele vendedor
-            //Se for gerente recebe a lista de vendas completa
-            if (System.Web.HttpContext.Current.Session["GrupoDeAcessoVendedor"].Equals(1)) {
-                vendas = (from v in vendas where v.IdVendedor.Equals(System.Web.HttpContext.Current.Session["IdVendedor"]) select v) as List<Venda>;
-            }
-
-            List<Produto> produtos;
-
-            using (var dao = new ProdutoDaoEntity())
+            foreach (Venda venda in vendas)
             {
-                produtos = dao.PegarLista() as List<Produto>;
+                ids.Add(venda.IdVenda);
+            }
+            using (var dao = new ProdutoVendaDaoEntity())
+            {
+                List<ProdutoVenda> lista = dao.PegarLista() as List<ProdutoVenda>;
+                produtos.AddRange(from p in lista where ids.Contains(p.IdVenda) select p);
             }
 
-            PainelViewModel vm = new PainelViewModel
+            foreach (ProdutoVenda pv in produtos)
             {
+                ValorTotal += pv.Valor;                
+            }
+            ids.Clear();
+            vendasDoMes.AddRange(from v in vendas where v.DataDaVenda.Month.Equals(DateTime.Today.Month) select v);
+
+            foreach (Venda venda in vendasDoMes)
+            {
+                ids.Add(venda.IdVenda);
+            }
+
+            produtosDoMes.AddRange(from p in produtos where ids.Contains(p.IdVenda) select p);
+            foreach (ProdutoVenda pv in produtosDoMes)
+            {
+                ValorMensal += pv.Valor;
+            }           
+
+            VisualizarVendasVendedorViewModel vm = new VisualizarVendasVendedorViewModel
+            {
+                Vendedor = vendedor,
                 Vendas = vendas,
-                Produtos = produtos
+                Produtos = produtos,
+                ValorTotal = ValorTotal,
+                ValorMensal = ValorMensal,
+                VolumeVendas = vendas.Count,
+                VolumeVendasMes = vendasDoMes.Count
             };
 
             return View(vm);

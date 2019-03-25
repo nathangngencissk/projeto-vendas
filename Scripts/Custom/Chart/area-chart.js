@@ -32,9 +32,9 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [],
         datasets: [{
-            label: "Earnings",
+            label: "Vendas",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -46,7 +46,7 @@ var myLineChart = new Chart(ctx, {
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+            data: [],
         }],
     },
     options: {
@@ -110,9 +110,51 @@ var myLineChart = new Chart(ctx, {
             callbacks: {
                 label: function (tooltipItem, chart) {
                     var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    return datasetLabel + ': R$' + number_format(tooltipItem.yLabel);
                 }
             }
         }
     }
+});
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/vendas/anual/json",
+        type: "post",
+        async: true,
+        data: {},
+        success: function (resp) {
+            myLineChart.data.labels.push(resp.nMes1);
+            myLineChart.data.labels.push(resp.nMes2);
+            myLineChart.data.labels.push(resp.nMes3);
+            myLineChart.data.labels.push(resp.nMes4);
+            myLineChart.data.labels.push(resp.nMes5);
+            myLineChart.data.labels.push(resp.nMes6);
+            myLineChart.data.labels.push(resp.nMes7);
+            myLineChart.data.labels.push(resp.nMes8);
+            myLineChart.data.labels.push(resp.nMes9);
+            myLineChart.data.labels.push(resp.nMes10);
+            myLineChart.data.labels.push(resp.nMes11);
+            myLineChart.data.labels.push(resp.nMes12);
+
+            myLineChart.data.datasets.forEach((dataset) => {
+                dataset.data.push(resp.mes1);
+                dataset.data.push(resp.mes2);
+                dataset.data.push(resp.mes3);
+                dataset.data.push(resp.mes4);
+                dataset.data.push(resp.mes5);
+                dataset.data.push(resp.mes6);
+                dataset.data.push(resp.mes7);
+                dataset.data.push(resp.mes8);
+                dataset.data.push(resp.mes9);
+                dataset.data.push(resp.mes10);
+                dataset.data.push(resp.mes11);
+                dataset.data.push(resp.mes12);
+            });
+            myLineChart.update();
+        },
+        error: function (resp) {
+            console.log(resp);
+        }
+    });
 });

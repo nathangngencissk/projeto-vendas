@@ -52,6 +52,7 @@ namespace VendasMVC.Persistence
                 foreach (ProdutoVenda pv in lista)
                 {
                     pv.Produto = contexto.Produtos.Find(pv.IdProduto);
+                    pv.Produto.Categoria = contexto.Categorias.Find(pv.Produto.IdCategoria);
                 }
             }
             return lista;

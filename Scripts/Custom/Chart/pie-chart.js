@@ -4,12 +4,13 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
+
 var myPieChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: ["Direct", "Referral", "Social"],
+        labels: [],
         datasets: [{
-            data: [55, 30, 15],
+            data: [],
             backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
             hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -32,4 +33,30 @@ var myPieChart = new Chart(ctx, {
         },
         cutoutPercentage: 80,
     },
+});
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/categorias/top3/json",
+        type: "post",
+        async: true,
+        data: {},
+        success: function (resp) {
+            myPieChart.data.labels.push(resp.categoria1);
+            myPieChart.data.labels.push(resp.categoria2);
+            myPieChart.data.labels.push(resp.categoria3);
+            myPieChart.data.datasets.forEach((dataset) => {
+                dataset.data.push(resp.valor1);
+                dataset.data.push(resp.valor2);
+                dataset.data.push(resp.valor3);
+            });
+            myPieChart.update();
+            $("#categoria1").html(resp.categoria1);
+            $("#categoria2").html(resp.categoria2);
+            $("#categoria3").html(resp.categoria3);
+        },
+        error: function (resp) {
+            console.log(resp);
+        }
+    });
 });
